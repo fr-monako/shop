@@ -3,20 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test1</title>
+    <title>Card with Images</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="card">
-        <img src="1.png" alt="Image 1">
-        <img src="2.png" alt="Image 2">
-        <img src="3.png" alt="Image 3">
-        <img src="4.png" alt="Image 4">
-        <img src="5.png" alt="Image 5">
-        <img src="6.png" alt="Image 6">
-        <img src="7.png" alt="Image 7">
-        <img src="8.png" alt="Image 8">
-        <img src="9.png" alt="Image 9">
+        <a href="https://youtube.com" target="_blank" class="button"><img src="1.png" alt="Image 1"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="2.png" alt="Image 2"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="3.png" alt="Image 3"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="4.png" alt="Image 4"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="5.png" alt="Image 5"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="6.png" alt="Image 6"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="7.png" alt="Image 7"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="8.png" alt="Image 8"></a>
+        <a href="https://youtube.com" target="_blank" class="button"><img src="9.png" alt="Image 9"></a>
     </div>
+
+    <script>
+        document.querySelectorAll('.button').forEach(button => {
+            button.addEventListener('click', function(event) {
+                event.preventDefault();
+                const clickedButton = this;
+                const img = clickedButton.querySelector('img');
+
+                // Hide other buttons
+                document.querySelectorAll('.button').forEach(otherButton => {
+                    if (otherButton !== clickedButton) {
+                        otherButton.classList.add('hidden');
+                    }
+                });
+
+                // Prepare for transformation
+                img.style.position = 'absolute';
+                img.style.zIndex = '1000';
+                img.style.transformOrigin = 'center center';
+
+                // Calculate center position and scale
+                const rect = img.getBoundingClientRect();
+                const centerX = window.innerWidth / 2 - rect.left - rect.width / 2;
+                const centerY = window.innerHeight / 2 - rect.top - rect.height / 2;
+                const scale = 300 / rect.width;
+
+                // Apply transformation
+                img.style.transform = `translate(${centerX}px, ${centerY}px) scale(${scale})`;
+
+                // Wait for the animation to finish, then trigger the particle effect
+                setTimeout(() => {
+                    // Trigger the "pop" effect
+                    img.classList.add('pop'); 
+
+                    // Open the link after the pop animation and reload the page
+                    setTimeout(() => {
+                        window.open(clickedButton.href, '_blank'); // Open the link in a new tab
+                        location.reload(); // Reload the page
+                    }, 500); // Time for the "pop" effect to finish
+                }, 1000); // Delay after initial animation to wait for scaling and positioning
+            });
+        });
+    </script>
 </body>
 </html>
